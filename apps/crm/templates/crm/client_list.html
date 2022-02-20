@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+    <body>
+        <!-- NAV BAR -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Clients</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'crm:client-create' %}">Create Client</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+        {% if clients %}
+        <!-- CLIENT LIST -->
+        <div class="card">
+            <h5 class="card-header">Client List</h5>
+            <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Client Type</th>
+                    <th scope="col">Country Code</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Last Updated</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <!-- <th scope="row">1</th> -->
+                        <td>{{ client.first_name }}</td>
+                        <td>{{ client.last_name }}</td>
+                        <td>{{ client.client_type }}</td>
+                        <td>{{ client.country_code }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.created }}</td>
+                        <td>{{ client.updated }}</td>
+                        {% if client.created_by is not None %}
+                            <td>{{ client.created_by.first_name }} {{ client.created_by.last_name }}</td>
+                        {% else %}
+                            <td>Not Available</td>
+                        {% endif %}
+                        <td>
+                            <!-- Call to action buttons -->
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <a class="btn btn-primary btn-sm" role="button" href="{% url 'crm:client-detail' client.cid %}">More</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="btn btn-success btn-sm" role="button" href="{% url 'crm:client-update' client.cid %}">Edit</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="btn btn-danger btn-sm" role="button" href="{% url 'crm:client-delete' client.cid %}">Delete</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p>No clients are available.</p>
+        {% endif %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
